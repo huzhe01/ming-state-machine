@@ -1,0 +1,482 @@
+<title>大明国家机器</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap">
+<style>
+/* Layout: 一栏阅读（正文 ≤ 40em），图表撑满 1120px 容器；手机上图表在自己的容器里横向滚动。
+   墨色 = 外廷文官系统；朱色 = 皇帝与内廷；石青 = 能对皇帝或百官说"不"的外廷制衡力量。 */
+:root {
+  --paper: #F1F3F1;
+  --sheet: #FAFBFA;
+  --ink: #1A1D20;
+  --ink-2: #4B5157;
+  --ink-3: #7E848A;
+  --rule: #D3D8D5;
+  --band: #E3E8E5;
+  --band-2: #EDF0EE;
+  --zhu: #B5341F;
+  --zhu-soft: #F5DED7;
+  --on-zhu: #FFFFFF;
+  --qing: #285A7C;
+  --qing-soft: #DBE6EE;
+  --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #121517; --sheet: #1A1E21; --ink: #E7E5DF; --ink-2: #B3B4B0; --ink-3: #868A8D;
+    --rule: #30363A; --band: #262C30; --band-2: #1F2427;
+    --zhu: #E5694F; --zhu-soft: #3D231E; --on-zhu: #1A0D0A;
+    --qing: #88B3D4; --qing-soft: #1C2B36;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #121517; --sheet: #1A1E21; --ink: #E7E5DF; --ink-2: #B3B4B0; --ink-3: #868A8D;
+  --rule: #30363A; --band: #262C30; --band-2: #1F2427;
+  --zhu: #E5694F; --zhu-soft: #3D231E; --on-zhu: #1A0D0A;
+  --qing: #88B3D4; --qing-soft: #1C2B36;
+  color-scheme: dark;
+}
+
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.8; }
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 48px 72px;
+}
+.prose { max-width: 40em; }
+.prose p { margin: 0 0 14px; }
+a { color: var(--qing); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--zhu); outline-offset: 2px; }
+q { quotes: "“" "”"; }
+
+/* 页头 */
+.eyebrow { font-size: 13px; letter-spacing: .14em; color: var(--ink-3); margin: 0; }
+h1 {
+  font-family: var(--serif); font-weight: 900; font-size: clamp(40px, 7vw, 68px);
+  line-height: 1.1; margin: 10px 0 20px; letter-spacing: .02em; text-wrap: balance;
+}
+.lede { font-size: 18px; line-height: 1.85; max-width: 36em; margin: 0 0 18px; }
+.key { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--ink-2); margin: 0 0 28px; padding: 0; list-style: none; }
+.key li { display: flex; align-items: center; gap: 8px; }
+.sw { display: inline-block; width: 22px; height: 14px; border-radius: 3px; border: 1.2px solid var(--ink-3); background: var(--sheet); flex: none; }
+.sw.emp { background: var(--zhu); border-color: var(--zhu); }
+.sw.nei { background: var(--zhu-soft); border-color: var(--zhu); }
+.sw.xiang { background: var(--qing-soft); border-color: var(--qing); }
+.sw.weak { background: var(--qing-soft); border-color: var(--qing); border-style: dashed; }
+.sw.check { border-color: var(--qing); border-width: 1.6px; }
+.sw.ghost { background: transparent; border-style: dashed; }
+.sw.tag { width: 20px; height: 16px; border: none; background: var(--qing); color: var(--sheet); font-size: 11px; font-weight: 700; display: inline-grid; place-items: center; }
+
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 4px; font-size: 14px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: 10px; margin-bottom: 8px; }
+nav.toc a { color: var(--ink-2); text-decoration: none; padding: 2px 10px; border-radius: 3px; }
+nav.toc a:hover { background: var(--band); color: var(--ink); }
+
+/* 分节 */
+section { padding-top: 64px; }
+.kicker { font-size: 13px; letter-spacing: .14em; color: var(--zhu); margin: 0 0 6px; font-weight: 500; }
+h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(26px, 3.6vw, 34px); line-height: 1.3; margin: 0 0 16px; text-wrap: balance; }
+h3 { font-family: var(--serif); font-weight: 600; font-size: 20px; margin: 32px 0 8px; }
+
+/* 图 */
+figure.fig { margin: 24px 0 0; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 20px 20px 16px; }
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.fig svg { display: block; width: 100%; min-width: 760px; height: auto; }
+figcaption { font-size: 14px; line-height: 1.75; color: var(--ink-2); margin-top: 14px; max-width: 52em; }
+.hint { display: none; font-size: 12px; color: var(--ink-3); margin: 0 0 8px; }
+@media (max-width: 800px) { .hint { display: block; } }
+
+.svg text { font-family: var(--sans); }
+.n rect { fill: var(--sheet); stroke: var(--ink-3); stroke-width: 1.2; }
+.n .t { fill: var(--ink); font-size: 14px; font-weight: 700; text-anchor: middle; }
+.n .t.sm { font-size: 13px; }
+.n .t.big { font-family: var(--serif); font-size: 26px; font-weight: 900; }
+.n .s { fill: var(--ink-2); font-size: 11.5px; text-anchor: middle; }
+.n.emp rect { fill: var(--zhu); stroke: var(--zhu); }
+.n.emp .t, .n.emp .s { fill: var(--on-zhu); }
+.n.nei rect { fill: var(--zhu-soft); stroke: var(--zhu); }
+.n.xiang rect { fill: var(--qing-soft); stroke: var(--qing); }
+.n.weak rect { fill: var(--qing-soft); stroke: var(--qing); stroke-dasharray: 5 3; }
+.n.check rect { stroke: var(--qing); stroke-width: 1.6; }
+.n.temp rect { stroke-dasharray: 6 3; }
+.n.ghost rect { fill: none; stroke: var(--ink-3); stroke-dasharray: 4 4; }
+.n.ghost .t, .n.ghost .s { fill: var(--ink-3); }
+.n.silver rect { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.6; }
+.tag rect { fill: var(--qing); }
+.tag text { fill: var(--sheet); font-size: 11px; font-weight: 700; text-anchor: middle; }
+.strike { stroke: var(--ink-3); stroke-width: 1.2; }
+.e { fill: none; stroke: var(--ink-2); stroke-width: 1.4; }
+.e.z { stroke: var(--zhu); }
+.e.q { stroke: var(--qing); }
+.e.d { stroke-dasharray: 5 4; }
+.e.dot { stroke-dasharray: 2 3; stroke-width: 1.6; }
+.mk { fill: var(--ink-2); } .mkz { fill: var(--zhu); } .mkq { fill: var(--qing); }
+.el { fill: var(--ink-2); font-size: 11.5px; paint-order: stroke; stroke: var(--sheet); stroke-width: 4px; stroke-linejoin: round; }
+.el.z { fill: var(--zhu); } .el.q { fill: var(--qing); }
+.cap { fill: var(--ink-2); font-size: 12px; text-anchor: middle; }
+.grp { fill: none; stroke-dasharray: 6 4; stroke-width: 1.2; }
+.grp.z { stroke: var(--zhu); } .grp.q { stroke: var(--qing); }
+.grpl { font-size: 13px; font-weight: 700; }
+.grpl.z { fill: var(--zhu); } .grpl.q { fill: var(--qing); }
+.grpl.big { font-size: 14px; }
+.grps { fill: var(--ink-2); font-size: 11.5px; }
+.colh { fill: var(--ink-3); font-size: 12.5px; font-weight: 700; text-anchor: middle; letter-spacing: .1em; }
+.rule { stroke: var(--rule); stroke-width: 1; }
+.rule.soft { stroke-dasharray: 2 4; }
+.rowhl { fill: var(--band-2); }
+.lane { font-family: var(--serif); font-weight: 900; font-size: 22px; fill: var(--ink); }
+.lanes { font-size: 11px; fill: var(--ink-3); }
+.band.a { fill: var(--band); } .band.b { fill: var(--band-2); }
+.bandl { fill: var(--ink-2); font-size: 11px; text-anchor: middle; }
+.tick { stroke: var(--ink); stroke-width: 1.4; }
+.tick.z, .stem.z { stroke: var(--zhu); }
+.stem { stroke: var(--ink-3); stroke-width: 1; }
+.evl { fill: var(--ink); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.evl.z { fill: var(--zhu); font-weight: 700; }
+.axis { fill: var(--ink-3); font-size: 11px; text-anchor: middle; font-variant-numeric: tabular-nums; }
+.axt { stroke: var(--ink-3); stroke-width: 1; }
+
+.n, .eg { transition: opacity .25s ease; }
+.svg.dim .n:not(.hl), .svg.dim .eg:not(.hl) { opacity: .16; }
+.n.hl rect { stroke-width: 2.6; }
+.n.hl:not(.emp):not(.nei) rect { stroke: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .n, .eg { transition: none; } }
+
+/* 交互控件 */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 12px; }
+.chip {
+  font: inherit; font-size: 14px; line-height: 1.4; padding: 6px 14px; cursor: pointer;
+  border: 1px solid var(--rule); background: var(--paper); color: var(--ink); border-radius: 999px;
+}
+.chip:hover { border-color: var(--ink-3); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip .yr { color: var(--ink-3); font-size: 12px; margin-left: 4px; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] .yr { color: var(--paper); opacity: .7; }
+.note { background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 12px 16px; font-size: 15px; line-height: 1.75; min-height: 5.6em; margin-bottom: 16px; }
+.note b { font-weight: 700; }
+
+/* 表格 */
+.tbl { overflow-x: auto; margin-top: 20px; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; min-width: 900px; font-size: 14px; line-height: 1.65; }
+th, td { border-bottom: 1px solid var(--rule); padding: 12px 14px; text-align: left; vertical-align: top; }
+tr:last-child th, tr:last-child td { border-bottom: none; }
+thead th { font-size: 12.5px; letter-spacing: .1em; color: var(--ink-3); font-weight: 700; background: var(--band-2); }
+tbody th { font-family: var(--serif); font-weight: 900; font-size: 18px; white-space: nowrap; }
+tbody th small { display: block; font-family: var(--sans); font-weight: 400; font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+tr.ming { background: var(--band-2); }
+table.mq td:first-child { font-weight: 700; white-space: nowrap; color: var(--ink-2); }
+table.mq { min-width: 640px; }
+
+/* 会审卡片 */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+.card { background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px; padding: 14px 16px; min-width: 0; }
+.card h4 { font-family: var(--serif); font-size: 19px; font-weight: 600; margin: 0; }
+.card .yr { font-size: 13px; color: var(--ink-3); font-variant-numeric: tabular-nums; margin: 0 0 6px; }
+.card p { font-size: 14px; line-height: 1.7; margin: 0; color: var(--ink-2); }
+
+.sources { font-size: 14px; color: var(--ink-2); line-height: 1.8; padding-left: 1.2em; }
+.sources li { margin-bottom: 4px; }
+footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-3); }
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">中国政治制度 · 唐 → 近代 · 聚焦明朝</p>
+  <h1>大明国家机器</h1>
+  <p class="lede">从唐到清，政令要过的几道关口里，宰相掌握的环节一个个被收走。到明朝，丞相干脆被废除，空出来的位置由内阁、司礼监、六科、巡抚、厂卫一层层补上。这套补丁系统运转了两百多年，到万历年间走进死锁。下面先看长时段的变化，再把明朝拆开来看。</p>
+  <ul class="key" aria-label="全页图例">
+    <li><span class="sw emp"></span>皇帝</li>
+    <li><span class="sw nei"></span>内廷、厂卫（朱笔一侧）</li>
+    <li><span class="sw xiang"></span>宰相或内阁：法定执政机构</li>
+    <li><span class="sw weak"></span>有执政之实、无宰相之名</li>
+    <li><span class="sw check"></span>监察、驳回的机构</li>
+    <li><span class="sw tag">驳</span>可依制度驳回诏令</li>
+    <li><span class="sw ghost"></span>被撤销或缺位</li>
+  </ul>
+  <nav class="toc" aria-label="目录">
+    <a href="#long">长时段</a><a href="#court">中枢</a><a href="#memorial">奏章流转</a><a href="#army">军事</a>
+    <a href="#province">地方</a><a href="#justice">司法</a><a href="#tax">赋役</a><a href="#timeline">时间线</a>
+    <a href="#qing">明清之间</a><a href="#sources">资料</a>
+  </nav>
+</header>
+
+<main>
+<section id="long">
+  <p class="kicker">长时段 · 618–1912</p>
+  <h2>宰相的环节一个个被收走</h2>
+  <div class="prose">
+    <p>把一道政令拆成四步：谁起草、谁拍板、谁能驳回、谁执行。逐朝看这四步握在谁手里，就能看出这一千三百年最主要的变化。</p>
+  </div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f1" viewBox="0 0 1020 560" role="img" aria-label="六个朝代政令四个环节对比：唐朝三省长官都是宰相；宋朝相权分为政务和军务；元朝中书省一省独大；明朝废丞相，内阁只拟票、司礼监批红；清朝军机处只承旨，六科并入都察院；民国由国务院、参议院和法院分权。"><defs><marker id="f1-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f1-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f1-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><text class="colh" x="225.0" y="22">起草 · 拟议</text><text class="colh" x="455.0" y="22">裁可 · 拍板</text><text class="colh" x="685.0" y="22">审核 · 驳回</text><text class="colh" x="915.0" y="22">执行</text><line class="rule" x1="0" y1="34" x2="1020" y2="34"/><text class="lane" x="10" y="80">唐</text><text class="lanes" x="10" y="100">618–907 · 三省制</text><g class="n xiang"><rect x="130" y="55" width="190" height="56" rx="4"/><text class="t" x="225" y="80">中书省</text><text class="s" x="225" y="98">起草诏敕</text></g><g class="eg"><path class="e " d="M324,83 L356,83" marker-end="url(#f1-a)"/></g><g class="n emp"><rect x="360" y="55" width="190" height="56" rx="4"/><text class="t" x="455" y="80">皇帝</text><text class="s" x="455" y="98">画敕裁可</text></g><g class="eg"><path class="e " d="M554,83 L586,83" marker-end="url(#f1-a)"/></g><g class="n xiang"><rect x="590" y="55" width="190" height="56" rx="4"/><text class="t" x="685" y="80">门下省</text><text class="s" x="685" y="98">审核 · 可封驳</text><g class="tag"><rect x="754" y="47" width="20" height="16" rx="3"/><text x="764" y="59">驳</text></g></g><g class="eg"><path class="e " d="M784,83 L816,83" marker-end="url(#f1-a)"/></g><g class="n xiang"><rect x="820" y="55" width="190" height="56" rx="4"/><text class="t" x="915" y="80">尚书省 → 六部</text><text class="s" x="915" y="98">执行</text></g><line class="rule soft" x1="0" y1="126" x2="1020" y2="126"/><text class="lane" x="10" y="166">宋</text><text class="lanes" x="10" y="186">960–1279 · 二府三司</text><g class="n xiang"><rect x="130" y="141" width="190" height="26" rx="4"/><text class="t sm" x="225" y="159">中书门下 · 政务</text></g><g class="n xiang"><rect x="130" y="171" width="190" height="26" rx="4"/><text class="t sm" x="225" y="189">枢密院 · 军务</text></g><g class="eg"><path class="e " d="M324,169 L356,169" marker-end="url(#f1-a)"/></g><g class="n emp"><rect x="360" y="141" width="190" height="56" rx="4"/><text class="t" x="455" y="166">皇帝</text><text class="s" x="455" y="184">裁决</text></g><g class="eg"><path class="e " d="M554,169 L586,169" marker-end="url(#f1-a)"/></g><g class="n check"><rect x="590" y="141" width="190" height="56" rx="4"/><text class="t" x="685" y="166">给事中 · 台谏</text><text class="s" x="685" y="184">封驳 · 言事</text><g class="tag"><rect x="754" y="133" width="20" height="16" rx="3"/><text x="764" y="145">驳</text></g></g><g class="eg"><path class="e " d="M784,169 L816,169" marker-end="url(#f1-a)"/></g><g class="n "><rect x="820" y="141" width="190" height="56" rx="4"/><text class="t" x="915" y="166">六部 · 三司</text><text class="s" x="915" y="184">三司分掌财政</text></g><line class="rule soft" x1="0" y1="212" x2="1020" y2="212"/><text class="lane" x="10" y="252">元</text><text class="lanes" x="10" y="272">1271–1368 · 一省制</text><g class="n xiang"><rect x="130" y="227" width="190" height="56" rx="4"/><text class="t" x="225" y="252">中书省</text><text class="s" x="225" y="270">丞相总揽政务</text></g><g class="eg"><path class="e " d="M324,255 L356,255" marker-end="url(#f1-a)"/></g><g class="n emp"><rect x="360" y="227" width="190" height="56" rx="4"/><text class="t" x="455" y="252">皇帝</text><text class="s" x="455" y="270">裁决</text></g><g class="eg"><path class="e " d="M554,255 L586,255" marker-end="url(#f1-a)"/></g><g class="n ghost"><rect x="590" y="227" width="190" height="56" rx="4"/><text class="t" x="685" y="252">门下省已撤</text><text class="s" x="685" y="270">无制度性封驳</text></g><g class="eg"><path class="e " d="M784,255 L816,255" marker-end="url(#f1-a)"/></g><g class="n xiang"><rect x="820" y="227" width="190" height="56" rx="4"/><text class="t" x="915" y="252">中书省 → 六部</text><text class="s" x="915" y="270">六部隶属中书</text></g><rect class="rowhl" x="0" y="300" width="1020" height="82" rx="4"/><line class="rule soft" x1="0" y1="298" x2="1020" y2="298"/><text class="lane" x="10" y="338">明</text><text class="lanes" x="10" y="358">1380 年后 · 罢丞相</text><g class="n weak"><rect x="130" y="313" width="190" height="56" rx="4"/><text class="t" x="225" y="338">内阁</text><text class="s" x="225" y="356">大学士正五品 · 票拟</text></g><g class="eg"><path class="e " d="M324,341 L356,341" marker-end="url(#f1-a)"/></g><g class="n emp"><rect x="360" y="313" width="190" height="26" rx="4"/><text class="t sm" x="455" y="331">皇帝</text></g><g class="n nei"><rect x="360" y="343" width="190" height="26" rx="4"/><text class="t sm" x="455" y="361">司礼监 · 批红</text></g><g class="eg"><path class="e " d="M554,341 L586,341" marker-end="url(#f1-a)"/></g><g class="n check"><rect x="590" y="313" width="190" height="56" rx="4"/><text class="t" x="685" y="338">六科给事中</text><text class="s" x="685" y="356">正七品 · 封还执奏</text><g class="tag"><rect x="754" y="305" width="20" height="16" rx="3"/><text x="764" y="317">驳</text></g></g><g class="eg"><path class="e " d="M784,341 L816,341" marker-end="url(#f1-a)"/></g><g class="n "><rect x="820" y="313" width="190" height="56" rx="4"/><text class="t" x="915" y="338">六部</text><text class="s" x="915" y="356">尚书正二品 · 直属皇帝</text></g><line class="rule soft" x1="0" y1="384" x2="1020" y2="384"/><text class="lane" x="10" y="424">清</text><text class="lanes" x="10" y="444">1729 年后 · 军机处</text><g class="n "><rect x="130" y="399" width="190" height="56" rx="4"/><text class="t" x="225" y="424">军机处</text><text class="s" x="225" y="442">承旨 · 拟写谕旨</text></g><g class="eg"><path class="e " d="M324,427 L356,427" marker-end="url(#f1-a)"/></g><g class="n emp"><rect x="360" y="399" width="190" height="56" rx="4"/><text class="t" x="455" y="424">皇帝</text><text class="s" x="455" y="442">朱批奏折</text></g><g class="eg"><path class="e " d="M554,427 L586,427" marker-end="url(#f1-a)"/></g><g class="n ghost"><rect x="590" y="399" width="190" height="56" rx="4"/><text class="t" x="685" y="424">六科并入都察院</text><text class="s" x="685" y="442">1723 年后封驳名存实亡</text></g><g class="eg"><path class="e " d="M784,427 L816,427" marker-end="url(#f1-a)"/></g><g class="n "><rect x="820" y="399" width="190" height="56" rx="4"/><text class="t" x="915" y="424">督抚 · 六部</text><text class="s" x="915" y="442">廷寄直达</text></g><line class="rule soft" x1="0" y1="470" x2="1020" y2="470"/><text class="lane" x="10" y="510">民国</text><text class="lanes" x="10" y="530">1912 · 临时约法</text><g class="n xiang"><rect x="130" y="485" width="190" height="56" rx="4"/><text class="t" x="225" y="510">国务院</text><text class="s" x="225" y="528">国务总理 · 国务员副署</text></g><g class="eg"><path class="e " d="M324,513 L356,513" marker-end="url(#f1-a)"/></g><g class="n "><rect x="360" y="485" width="190" height="26" rx="4"/><text class="t sm" x="455" y="503">参议院 · 立法</text></g><g class="n "><rect x="360" y="515" width="190" height="26" rx="4"/><text class="t sm" x="455" y="533">临时大总统 · 公布</text></g><g class="eg"><path class="e " d="M554,513 L586,513" marker-end="url(#f1-a)"/></g><g class="n check"><rect x="590" y="485" width="190" height="56" rx="4"/><text class="t" x="685" y="510">参议院 · 法院</text><text class="s" x="685" y="528">弹劾 · 独立审判</text><g class="tag"><rect x="754" y="477" width="20" height="16" rx="3"/><text x="764" y="489">驳</text></g></g><g class="eg"><path class="e " d="M784,513 L816,513" marker-end="url(#f1-a)"/></g><g class="n "><rect x="820" y="485" width="190" height="56" rx="4"/><text class="t" x="915" y="510">各部</text><text class="s" x="915" y="528">依法执行</text></g></svg></div>
+    <figcaption>每一行从左往右读，是那个朝代一道政令要过的关口。蓝底格子越来越少：唐朝三省长官都是宰相，四个环节占了三个；宋朝把军权分给枢密院、财权分给三司；元朝中书省一省独大；明朝废相后，内阁只能拟票，没有宰相之名；清朝军机处只是承旨的班子，1723 年六科并入都察院，制度上能驳回皇帝的环节也基本消失。民国用议会、内阁、法院的分权重建了制衡。</figcaption>
+  </figure>
+
+  <h3>五条线的逐朝对照</h3>
+  <div class="tbl">
+    <table>
+      <thead><tr><th scope="col">朝代</th><th scope="col">中枢</th><th scope="col">地方层级</th><th scope="col">法典</th><th scope="col">司法</th><th scope="col">选官与赋役</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">唐<small>618–907</small></th><td>三省六部，宰相在政事堂合议</td><td>州—县两级，道为监察区；安史之乱后藩镇割据</td><td>《唐律疏议》（653），礼法合一</td><td>大理寺审、刑部复核、御史台监察，重案“三司推事”</td><td>租庸调 → 两税法（780）；科举兴起，门第仍重</td></tr>
+        <tr><th scope="row">宋<small>960–1279</small></th><td>中书门下与枢密院“二府”分掌政、军，三司掌财</td><td>路—州府军监—县；知州由京官差遣，另设通判</td><td>《宋刑统》加编敕</td><td>鞫谳分司，审与判分开；提点刑狱司巡察州县</td><td>殿试定制，文官政治；两税之外有免役钱</td></tr>
+        <tr><th scope="row">元<small>1271–1368</small></th><td>中书省一省独大，丞相总揽</td><td>行中书省：腹里加十个行省，边界犬牙交错</td><td>无统一法典，以《大元通制》《元典章》等条格判例为主</td><td>四等人异法；蒙古人案件归大宗正府</td><td>诸色户计，职业世袭；科举时断时续</td></tr>
+        <tr class="ming"><th scope="row">明<small>1368–1644</small></th><td>1380 年废相；内阁票拟，司礼监批红</td><td>两京十三布政使司；三司分权，督抚渐成常设</td><td>《大明律》（1397）、《大诰》、《问刑条例》</td><td>三法司加会审；厂卫诏狱另开侧门</td><td>黄册、鱼鳞图册、里甲；一条鞭法；八股取士</td></tr>
+        <tr><th scope="row">清<small>1644–1912</small></th><td>军机处承旨，奏折直达御前</td><td>督抚常设，三司降为属官；藩部归理藩院</td><td>《大清律例》，律文少改、条例增修</td><td>秋审、朝审</td><td>摊丁入亩；保甲；文字狱</td></tr>
+        <tr><th scope="row">近代<small>1901–1949</small></th><td>1906 官制改革 → 1911 责任内阁 → 1912《临时约法》</td><td>督抚改为都督、省长</td><td>《大清新刑律》→ 国民政府《六法全书》</td><td>大理院、四级三审、审检分立</td><td>1905 年废科举；新式警察取代衙役</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="court">
+  <p class="kicker">中枢 · 1380 年以后</p>
+  <h2>明朝中央：拆掉宰相之后</h2>
+  <div class="prose">
+    <p>1380 年，朱元璋借胡惟庸案撤销中书省、废除丞相，《明史·职官志》的说法是<q>析中书省之政归六部，以尚书任天下事</q>。同一年，大都督府也被拆成五军都督府。</p>
+    <p>一个人批全国的奏章做不到，于是长出了两只替皇帝写字的手。外廷的一只是内阁：大学士用墨笔写出处理意见，贴在奏章上，叫票拟。内廷的一只是司礼监：秉笔太监用朱笔照着票拟誊成圣旨，叫批红。两只手都没有独立的法定权力，实际谁说了算，取决于皇帝信任谁，以及两边是否联手。</p>
+    <p>外廷另有两道刹车：六科给事中可以把不妥的旨意封还，都察院纠劾百官。军权被切成两半，五军都督府管兵，兵部调兵。图里标了各衙门长官的品级，能看到明显的倒挂：内阁大学士本衔只有正五品（后来多兼尚书衔撑地位），封驳的给事中正七品，管的却是正二品的尚书；品级最高的五军都督府（正一品）反而调不动兵。</p>
+    <p>《万历十五年》里的六个人，各自站在这张图的什么位置？点名字看。</p>
+  </div>
+  <div class="chips" role="group" aria-label="《万历十五年》人物">
+    <button class="chip" type="button" id="p-wanli" data-p="wanli" aria-pressed="false">万历皇帝</button>
+    <button class="chip" type="button" id="p-zhang" data-p="zhang" aria-pressed="false">张居正<span class="yr">首辅 1572–82</span></button>
+    <button class="chip" type="button" id="p-shen" data-p="shen" aria-pressed="false">申时行<span class="yr">首辅 1584–91</span></button>
+    <button class="chip" type="button" id="p-hai" data-p="hai" aria-pressed="false">海瑞</button>
+    <button class="chip" type="button" id="p-qi" data-p="qi" aria-pressed="false">戚继光</button>
+    <button class="chip" type="button" id="p-li" data-p="li" aria-pressed="false">李贽</button>
+  </div>
+  <div class="note" id="p-note" aria-live="polite">选一个人物，图中会只亮出与他相关的机构和连线；再点一次恢复全图。</div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f2" viewBox="0 0 1040 480" role="img" aria-label="明代中央机构图：皇帝两侧是内阁（票拟）和司礼监（批红）；中书省已撤销，皇帝直接管六科和六部；六科一科对一部稽察；都察院纠劾百官；刑部、都察院、大理寺合称三法司；兵部调兵与五军都督府统兵分离；东厂、锦衣卫和北镇抚司诏狱直属皇帝。"><defs><marker id="f2-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f2-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f2-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="grp z" x="130" y="110" width="220" height="70" rx="6"/><text class="grpl z" x="112" y="141"><tspan x="112">厂</tspan><tspan x="112" dy="16">卫</tspan></text><g class="n nei" data-id="sl"><rect x="140" y="24" width="200" height="56" rx="4"/><text class="t" x="240" y="49">司礼监</text><text class="s" x="240" y="67">掌印 · 秉笔太监</text></g><g class="n emp" data-id="emp"><rect x="440" y="24" width="160" height="56" rx="4"/><text class="t" x="520" y="49">皇帝</text><text class="s" x="520" y="67">最终裁可</text></g><g class="n weak" data-id="ng"><rect x="700" y="24" width="200" height="56" rx="4"/><text class="t" x="800" y="49">内阁</text><text class="s" x="800" y="67">大学士 正五品</text></g><g class="n nei" data-id="dc"><rect x="140" y="120" width="96" height="50" rx="4"/><text class="t" x="188" y="142">东厂</text><text class="s" x="188" y="160">太监提督</text></g><g class="n nei" data-id="jy"><rect x="244" y="120" width="96" height="50" rx="4"/><text class="t" x="292" y="142">锦衣卫</text><text class="s" x="292" y="160">亲军 · 1382</text></g><g class="n ghost" data-id="ghost"><rect x="440" y="120" width="160" height="50" rx="4"/><text class="t" x="520" y="142">中书省 · 丞相</text><text class="s" x="520" y="160">1380 年撤销</text></g><line class="strike" x1="470" y1="141" x2="570" y2="141"/><g class="n " data-id="tz"><rect x="700" y="120" width="150" height="50" rx="4"/><text class="t" x="775" y="142">通政司</text><text class="s" x="775" y="160">正三品 · 收章疏</text></g><g class="n " data-id="hl"><rect x="870" y="120" width="160" height="50" rx="4"/><text class="t" x="950" y="142">翰林院</text><text class="s" x="950" y="160">阁臣多由此出</text></g><g class="n nei" data-id="zy"><rect x="140" y="212" width="180" height="48" rx="4"/><text class="t" x="230" y="233">北镇抚司 · 诏狱</text><text class="s" x="230" y="251">奉旨拿问 · 不经法司</text></g><g class="n check" data-id="lk"><rect x="330" y="212" width="440" height="48" rx="4"/><text class="t" x="550" y="233">六科给事中 · 正七品</text><text class="s" x="550" y="251">封还执奏 · 抄发章疏 · 稽察六部</text></g><g class="n " data-id="bu bu-li"><rect x="330" y="300" width="66" height="48" rx="4"/><text class="t" x="363" y="321">吏部</text><text class="s" x="363" y="339">正二品</text></g><g class="n " data-id="bu bu-hu"><rect x="404" y="300" width="66" height="48" rx="4"/><text class="t" x="437" y="321">户部</text><text class="s" x="437" y="339">正二品</text></g><g class="n " data-id="bu bu-lii"><rect x="478" y="300" width="66" height="48" rx="4"/><text class="t" x="511" y="321">礼部</text><text class="s" x="511" y="339">正二品</text></g><g class="n " data-id="bu bu-bing"><rect x="552" y="300" width="66" height="48" rx="4"/><text class="t" x="585" y="321">兵部</text><text class="s" x="585" y="339">正二品</text></g><g class="n " data-id="bu bu-xing"><rect x="626" y="300" width="66" height="48" rx="4"/><text class="t" x="659" y="321">刑部</text><text class="s" x="659" y="339">正二品</text></g><g class="n " data-id="bu bu-gong"><rect x="700" y="300" width="66" height="48" rx="4"/><text class="t" x="733" y="321">工部</text><text class="s" x="733" y="339">正二品</text></g><g class="n check" data-id="dcy"><rect x="820" y="300" width="200" height="48" rx="4"/><text class="t" x="920" y="321">都察院</text><text class="s" x="920" y="339">都御史正二品 · 御史110人</text></g><g class="n " data-id="wf"><rect x="60" y="300" width="200" height="48" rx="4"/><text class="t" x="160" y="321">五军都督府</text><text class="s" x="160" y="339">左右都督 正一品</text></g><g class="n " data-id="dl"><rect x="820" y="410" width="200" height="48" rx="4"/><text class="t" x="920" y="431">大理寺</text><text class="s" x="920" y="449">卿 正三品 · 驳正</text></g><g class="eg" data-e="ng-emp"><path class="e " d="M700,52 L604,52" marker-end="url(#f2-a)"/><text class="el " x="652" y="44" text-anchor="middle">票拟 · 墨书小票</text></g><g class="eg" data-e="emp-sl"><path class="e z" d="M440,52 L344,52" marker-end="url(#f2-z)"/><text class="el z" x="392" y="44" text-anchor="middle">照阁票批朱</text></g><g class="eg" data-e="sl-dc"><path class="e z" d="M188,80 L188,116" marker-end="url(#f2-z)"/><text class="el z" x="196" y="104" text-anchor="start">提督</text></g><g class="eg" data-e="emp-jy"><path class="e z" d="M462,80 L302,117" marker-end="url(#f2-z)"/><text class="el z" x="388" y="92" text-anchor="start">直属</text></g><g class="eg" data-e="tz-emp"><path class="e " d="M720,120 L606,74" marker-end="url(#f2-a)"/><text class="el " x="606" y="113" text-anchor="start">章疏进呈</text></g><g class="eg" data-e="hl-ng"><path class="e " d="M950,120 L892,84" marker-end="url(#f2-a)"/><text class="el " x="938" y="100" text-anchor="start">入阁</text></g><g class="eg" data-e="emp-lk"><path class="e " d="M520,80 L520,208" marker-end="url(#f2-a)"/><text class="el " x="528" y="198" text-anchor="start">1380 年后直达</text></g><g class="eg" data-e="dc-zy"><path class="e z" d="M188,170 L188,208" marker-end="url(#f2-z)"/></g><g class="eg" data-e="jy-zy"><path class="e z" d="M292,170 L292,208" marker-end="url(#f2-z)"/></g><g class="eg" data-e="lk-bu"><path class="e q" d="M363,260 L363,296" marker-end="url(#f2-q)"/><path class="e q" d="M437,260 L437,296" marker-end="url(#f2-q)"/><path class="e q" d="M511,260 L511,296" marker-end="url(#f2-q)"/><path class="e q" d="M585,260 L585,296" marker-end="url(#f2-q)"/><path class="e q" d="M659,260 L659,296" marker-end="url(#f2-q)"/><path class="e q" d="M733,260 L733,296" marker-end="url(#f2-q)"/><text class="el q" x="778" y="284" text-anchor="start">一科对一部</text></g><g class="eg" data-e="dcy-bu"><path class="e q" d="M820,324 L770,324" marker-end="url(#f2-q)"/><text class="el q" x="795" y="316" text-anchor="middle">纠劾</text></g><g class="eg" data-e="bing-wf"><path class="e d" d="M585,348 L585,392 L160,392 L160,348"/><text class="el " x="372" y="386" text-anchor="middle">兵部调兵 · 五府统兵</text></g><g class="eg" data-e="sanfa"><path class="e " d="M659,348 L659,434 L816,434"/><text class="el " x="738" y="426" text-anchor="middle">三法司</text></g><g class="eg" data-e="sanfa2"><path class="e " d="M920,348 L920,406"/></g></svg></div>
+    <figcaption>朱色是皇帝和内廷直属的系统，石青色是外廷里能挑错、能驳回的机构，虚线框是被撤销的中书省。皇帝到六部的那条线穿过了原来丞相的位置。三法司的分工按《明史·刑法志》：<q>刑部受天下刑名，都察院纠察，大理寺驳正</q>。锦衣卫是亲军，《明史》说它<q>不隶五府</q>。</figcaption>
+  </figure>
+</section>
+
+<section id="memorial">
+  <p class="kicker">文书 · 皇帝怎么上班</p>
+  <h2>一份奏章的旅程</h2>
+  <div class="prose">
+    <p>明朝的日常政务主要就是奏章的流转。按下面的步骤，看一份题本从写成到执行要经过哪些手，哪些地方会被卡住。</p>
+  </div>
+  <div class="chips" role="group" aria-label="奏章流转步骤">
+    <button class="chip" type="button" id="st-0" data-s="0" aria-pressed="true">全流程</button>
+    <button class="chip" type="button" id="st-1" data-s="1" aria-pressed="false">1 上疏</button>
+    <button class="chip" type="button" id="st-2" data-s="2" aria-pressed="false">2 通政司</button>
+    <button class="chip" type="button" id="st-3" data-s="3" aria-pressed="false">3 票拟</button>
+    <button class="chip" type="button" id="st-4" data-s="4" aria-pressed="false">4 批红</button>
+    <button class="chip" type="button" id="st-5" data-s="5" aria-pressed="false">5 六科</button>
+    <button class="chip" type="button" id="st-6" data-s="6" aria-pressed="false">6 执行</button>
+    <button class="chip" type="button" id="st-7" data-s="7" aria-pressed="false">考成法回路</button>
+  </div>
+  <div class="note" id="s-note" aria-live="polite"></div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f3" viewBox="0 0 1010 340" role="img" aria-label="一份奏章的旅程：上疏，经通政司封进，内阁票拟，皇帝或司礼监批红，六科抄发，六部执行。皇帝可发还改票或留中，六科可封还执奏；考成法增加了六部向六科、六科向内阁的稽核回路。"><defs><marker id="f3-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f3-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f3-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><g class="n " data-id="s1"><rect x="20" y="120" width="136" height="56" rx="4"/><text class="t" x="88" y="145">上疏</text><text class="s" x="88" y="163">京官 · 督抚 · 题本</text></g><g class="n " data-id="s2"><rect x="186" y="120" width="136" height="56" rx="4"/><text class="t" x="254" y="145">通政司</text><text class="s" x="254" y="163">登记 · 封进御前</text></g><g class="n weak" data-id="s3"><rect x="352" y="120" width="136" height="56" rx="4"/><text class="t" x="420" y="145">内阁</text><text class="s" x="420" y="163">票拟 · 墨书小票</text></g><g class="n emp" data-id="s4"><rect x="518" y="120" width="136" height="56" rx="4"/><text class="t" x="586" y="145">皇帝 / 司礼监</text><text class="s" x="586" y="163">朱笔批红</text></g><g class="n check" data-id="s5"><rect x="684" y="120" width="136" height="56" rx="4"/><text class="t" x="752" y="145">六科</text><text class="s" x="752" y="163">抄发 · 可封驳</text></g><g class="n " data-id="s6"><rect x="850" y="120" width="136" height="56" rx="4"/><text class="t" x="918" y="145">六部 · 各衙门</text><text class="s" x="918" y="163">照旨执行</text></g><g class="n ghost" data-id="lz"><rect x="526" y="250" width="120" height="40" rx="4"/><text class="t" x="586" y="267">留中</text><text class="s" x="586" y="285">不批不发 · 搁置</text></g><g class="eg" data-e="e12"><path class="e " d="M158,148 L182,148" marker-end="url(#f3-a)"/></g><g class="eg" data-e="e23"><path class="e " d="M324,148 L348,148" marker-end="url(#f3-a)"/></g><g class="eg" data-e="e34"><path class="e " d="M490,148 L514,148" marker-end="url(#f3-a)"/></g><g class="eg" data-e="e45"><path class="e " d="M656,148 L680,148" marker-end="url(#f3-a)"/></g><g class="eg" data-e="e56"><path class="e " d="M822,148 L846,148" marker-end="url(#f3-a)"/></g><g class="eg" data-e="back34"><path class="e z d" d="M560,120 C560,76 420,76 420,116" marker-end="url(#f3-z)"/><text class="el z" x="490" y="70" text-anchor="middle">不同意 · 发还改票</text></g><g class="eg" data-e="back54"><path class="e q d" d="M752,120 C752,76 612,76 612,116" marker-end="url(#f3-q)"/><text class="el q" x="682" y="70" text-anchor="middle">封还执奏</text></g><g class="eg" data-e="e4lz"><path class="e z d" d="M586,176 L586,246" marker-end="url(#f3-z)"/></g><g class="eg" data-e="k65"><path class="e q dot" d="M918,176 L918,214 L770,214 L770,180" marker-end="url(#f3-q)"/><text class="el q" x="844" y="207" text-anchor="middle">考成法：按月注销</text></g><g class="eg" data-e="k53"><path class="e q dot" d="M720,176 L720,310 L404,310 L404,180" marker-end="url(#f3-q)"/><text class="el q" x="562" y="328" text-anchor="middle">六科稽核后报内阁</text></g></svg></div>
+    <figcaption>实线是主流程，朱色虚线是皇帝一侧的两种卡法，石青虚线是六科的封驳，点线是张居正考成法（1573–1582）加上的稽核回路。司礼监秉笔太监的职掌，《明史·职官志》写作<q>掌章奏文书，照阁票批硃</q>。</figcaption>
+  </figure>
+</section>
+
+<section id="army">
+  <p class="kicker">军事 · 卫所与五府</p>
+  <h2>管兵的不能调兵</h2>
+  <div class="prose">
+    <p>明初的军队由卫所供养：军户世袭，屯田自养，编制按《明史·兵志》是<q>大率五千六百人为卫，千一百二十人为千户所，百十有二人为百户所</q>。管卫所的五军都督府品级最高，调兵却要凭兵部的命令，出征的统帅由皇帝临时任命。三方只在皇帝那里汇合，哪一方都难以单独拥兵。</p>
+  </div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f4" viewBox="0 0 1000 320" role="img" aria-label="明代军权分离：五军都督府日常统辖都司和卫所，兵部发勘合调兵，皇帝临时命将为总兵官，卫所官军出征归总兵指挥，战毕缴印、官军各回卫所。"><defs><marker id="f4-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f4-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f4-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><g class="n emp"><rect x="420" y="16" width="160" height="48" rx="4"/><text class="t" x="500" y="37">皇帝</text><text class="s" x="500" y="55">命将 · 授印</text></g><g class="n "><rect x="40" y="110" width="220" height="56" rx="4"/><text class="t" x="150" y="135">五军都督府</text><text class="s" x="150" y="153">武官 · 管军籍操练 · 正一品</text></g><g class="n "><rect x="390" y="110" width="220" height="56" rx="4"/><text class="t" x="500" y="135">兵部</text><text class="s" x="500" y="153">文官 · 武选调兵 · 尚书正二品</text></g><g class="n temp"><rect x="740" y="110" width="220" height="56" rx="4"/><text class="t" x="850" y="135">总兵官</text><text class="s" x="850" y="153">战时命将 · 无品级无定员</text></g><g class="n "><rect x="40" y="250" width="160" height="56" rx="4"/><text class="t" x="120" y="275">都指挥使司</text><text class="s" x="120" y="293">16 都司 · 5 行都司</text></g><g class="n "><rect x="230" y="250" width="160" height="56" rx="4"/><text class="t" x="310" y="275">卫</text><text class="s" x="310" y="293">约 5,600 人 · 全国 493</text></g><g class="n "><rect x="420" y="250" width="160" height="56" rx="4"/><text class="t" x="500" y="275">千户所</text><text class="s" x="500" y="293">约 1,120 人</text></g><g class="n "><rect x="610" y="250" width="160" height="56" rx="4"/><text class="t" x="690" y="275">百户所</text><text class="s" x="690" y="293">112 人 · 总旗2 小旗10</text></g><g class="eg"><path class="e " d="M440,64 L204,108" marker-end="url(#f4-a)"/></g><g class="eg"><path class="e " d="M500,64 L500,106" marker-end="url(#f4-a)"/></g><g class="eg"><path class="e z" d="M560,64 L796,107" marker-end="url(#f4-z)"/><text class="el z" x="690" y="80" text-anchor="middle">命将</text></g><g class="eg"><path class="e " d="M120,166 L120,246" marker-end="url(#f4-a)"/><text class="el " x="128" y="212" text-anchor="start">日常统辖</text></g><g class="eg"><path class="e d" d="M500,166 L500,246" marker-end="url(#f4-a)"/><text class="el " x="508" y="212" text-anchor="start">发勘合调兵</text></g><g class="eg"><path class="e " d="M202,278 L226,278" marker-end="url(#f4-a)"/></g><g class="eg"><path class="e " d="M392,278 L416,278" marker-end="url(#f4-a)"/></g><g class="eg"><path class="e " d="M582,278 L606,278" marker-end="url(#f4-a)"/></g><g class="eg"><path class="e z d" d="M772,278 L850,278 L850,170" marker-end="url(#f4-z)" marker-start="url(#f4-z)"/><text class="el z" x="858" y="232" text-anchor="start">出征 · 战毕回卫</text></g><g class="eg"><path class="e z d" d="M900,110 L900,40 L584,40" marker-end="url(#f4-z)"/><text class="el z" x="742" y="33" text-anchor="middle">战毕缴印</text></g></svg></div>
+    <figcaption>平时管兵的不能调兵，能调兵的手里没兵，带兵出征的总兵官是临时差遣，《明史·职官志》说总兵、副总兵、参将等<q>无品级，无定员</q>。代价也很明显：明中期以后卫所逃亡、缺额严重，九边改靠常驻的镇守总兵和募兵，戚继光在浙江招募义乌兵就是这一转变的例子。</figcaption>
+  </figure>
+</section>
+
+<section id="province">
+  <p class="kicker">地方 · 两京十三布政使司</p>
+  <h2>地方：三司分权，督抚补位</h2>
+  <div class="prose">
+    <p>1376 年，明朝把元朝的行中书省改为承宣布政使司，省级权力一分为三：布政使司管民政财赋，按察使司管刑名监察，都指挥使司管军队。三司互不统属，分别对口中央。全国最终是两个直隶加十三个布政使司，俗称两京十三省。</p>
+    <p>三司分立防住了割据，代价是一省之内遇事无人统筹。治水、剿匪、边防都要跨衙门协调，中央便派出巡抚、总督，挂都察院的衔去节制三司。起初是临时差遣，宣德以后逐渐常设，《明史》说<q>巡抚之名，起于懿文太子巡抚陕西</q>。另一条监察线是巡按御史，只有正七品，由都察院每年差出，<q>代天子巡狩</q>。</p>
+  </div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f5" viewBox="0 0 1000 600" role="img" aria-label="明代地方结构：中央六部、刑部与都察院、五府与兵部分别对口布政使司、按察使司、都指挥使司；巡抚总督由中央派出节制三司；巡按御史监察全省。民政线为府140、州193、县1138、里69556、甲；军政线为卫493、所2593、军户。"><defs><marker id="f5-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f5-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f5-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><g class="n "><rect x="70" y="14" width="180" height="46" rx="4"/><text class="t" x="160" y="34">六部</text><text class="s" x="160" y="52">户部钱粮 · 吏部铨选</text></g><g class="n check"><rect x="340" y="14" width="180" height="46" rx="4"/><text class="t" x="430" y="34">刑部 · 都察院</text><text class="s" x="430" y="52">刑名 · 监察</text></g><g class="n "><rect x="610" y="14" width="180" height="46" rx="4"/><text class="t" x="700" y="34">五府 · 兵部</text><text class="s" x="700" y="52">统兵 · 调兵</text></g><g class="n check"><rect x="830" y="14" width="160" height="46" rx="4"/><text class="t" x="910" y="34">巡按御史</text><text class="s" x="910" y="52">都察院差出 · 正七品</text></g><rect class="grp q" x="30" y="124" width="800" height="160" rx="6"/><text class="grpl q big" x="46" y="148">巡抚 · 总督</text><text class="grps" x="174" y="148">中央派出 · 挂都御史衔 · 节制三司</text><g class="n "><rect x="70" y="166" width="180" height="58" rx="4"/><text class="t" x="160" y="192">承宣布政使司</text><text class="s" x="160" y="210">民政财赋 · 布政使从二品</text></g><g class="n "><rect x="340" y="166" width="180" height="58" rx="4"/><text class="t" x="430" y="192">提刑按察使司</text><text class="s" x="430" y="210">刑名监察 · 按察使正三品</text></g><g class="n "><rect x="610" y="166" width="180" height="58" rx="4"/><text class="t" x="700" y="192">都指挥使司</text><text class="s" x="700" y="210">军政 · 都指挥使正二品</text></g><text class="cap" x="295" y="268">三司互不统属，各自对口中央</text><g class="eg"><path class="e " d="M160,60 L160,162" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M430,60 L430,162" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M700,60 L700,162" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e q d" d="M480,60 L480,120" marker-end="url(#f5-q)"/><text class="el q" x="488" y="96" text-anchor="start">派出</text></g><g class="eg"><path class="e q d" d="M910,60 L910,195 L834,195" marker-end="url(#f5-q)"/></g><text class="el q" x="924" y="92"><tspan x="924" dy="0">代</tspan><tspan x="924" dy="15">天</tspan><tspan x="924" dy="15">子</tspan><tspan x="924" dy="15">巡</tspan><tspan x="924" dy="15">狩</tspan></text><g class="n "><rect x="70" y="316" width="180" height="46" rx="4"/><text class="t" x="160" y="336">府 · 140</text><text class="s" x="160" y="354">知府 正四品</text></g><g class="n "><rect x="70" y="392" width="180" height="46" rx="4"/><text class="t" x="160" y="412">州 193 · 县 1,138</text><text class="s" x="160" y="430">知州从五品 · 知县正七品</text></g><g class="n "><rect x="70" y="468" width="180" height="46" rx="4"/><text class="t" x="160" y="488">里 · 69,556</text><text class="s" x="160" y="506">每里 110 户</text></g><g class="n "><rect x="70" y="544" width="180" height="46" rx="4"/><text class="t" x="160" y="564">甲 · 10 户</text><text class="s" x="160" y="582">甲首轮役 · 黄册十年一造</text></g><g class="eg"><path class="e " d="M160,224 L160,312" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M160,362 L160,388" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M160,438 L160,464" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M160,514 L160,540" marker-end="url(#f5-a)"/></g><text class="el" x="262" y="496">= 里长 10 户 + 10 甲 × 10 户</text><g class="n "><rect x="340" y="316" width="180" height="46" rx="4"/><text class="t" x="430" y="336">分守道 · 分巡道</text><text class="s" x="430" y="354">两司派出 · 督察府州</text></g><g class="eg"><path class="e " d="M430,224 L430,312" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e d" d="M340,339 L254,339" marker-end="url(#f5-a)"/><text class="el " x="297" y="331" text-anchor="middle">督察</text></g><g class="n ghost"><rect x="340" y="400" width="180" height="56" rx="4"/><text class="t" x="430" y="425">南、北直隶</text><text class="s" x="430" y="443">府州直属六部 · 不设布政司</text></g><g class="n "><rect x="610" y="316" width="180" height="46" rx="4"/><text class="t" x="700" y="336">卫 · 493</text><text class="s" x="700" y="354">每卫约 5,600 人</text></g><g class="n "><rect x="610" y="392" width="180" height="46" rx="4"/><text class="t" x="700" y="412">所 · 2,593</text><text class="s" x="700" y="430">另有守御千户所 315</text></g><g class="n "><rect x="610" y="468" width="180" height="46" rx="4"/><text class="t" x="700" y="488">军户 · 世袭</text><text class="s" x="700" y="506">屯田自养（设计）</text></g><g class="eg"><path class="e " d="M700,224 L700,312" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M700,362 L700,388" marker-end="url(#f5-a)"/></g><g class="eg"><path class="e " d="M700,438 L700,464" marker-end="url(#f5-a)"/></g></svg></div>
+    <figcaption>数字取自《明史·地理志》序：府 140、州 193、县 1,138，编里 69,556；都司 16、行都司 5，卫 493、所 2,593、守御千户所 315。县以下不设官，由里甲按户轮流应役，黄册每十年重造一次。</figcaption>
+  </figure>
+</section>
+
+<section id="justice">
+  <p class="kicker">司法 · 三法司与厂卫</p>
+  <h2>司法：三法司的正门，厂卫的侧门</h2>
+  <div class="prose">
+    <p>常规案件走逐级审转的正门。笞杖轻罪由州县自行审结，徒流报到按察司复审，死罪送到京城，经刑部审拟、大理寺复核，最后由皇帝覆奏勾决。户婚田土这类民间纠纷，洪武末年的《教民榜文》要求先交里老人调处。</p>
+    <p>另有一扇侧门。锦衣卫和东厂可以奉旨直接拿人，关进北镇抚司诏狱，不经法司。《明史·刑法志》专门点出：<q>刑法有创之自明，不衷古制者，廷杖、东西厂、锦衣卫、镇抚司狱是已</q>。</p>
+  </div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f6" viewBox="0 0 1004 344" role="img" aria-label="明代司法两条路：正门从里老人调处、州县、府、按察司、刑部、大理寺到皇帝勾决，都察院纠察、巡按录囚；侧门由皇帝密旨交东厂锦衣卫拿人，入北镇抚司诏狱，不经三法司。"><defs><marker id="f6-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f6-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f6-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><g class="n "><rect x="10" y="150" width="120" height="56" rx="4"/><text class="t" x="70" y="175">里老人</text><text class="s" x="70" y="193">户婚田土 · 先调处</text></g><g class="n "><rect x="154" y="150" width="120" height="56" rx="4"/><text class="t" x="214" y="175">州县</text><text class="s" x="214" y="193">笞杖 · 自理</text></g><g class="n "><rect x="298" y="150" width="120" height="56" rx="4"/><text class="t" x="358" y="175">府</text><text class="s" x="358" y="193">审转</text></g><g class="n "><rect x="442" y="150" width="120" height="56" rx="4"/><text class="t" x="502" y="175">按察司</text><text class="s" x="502" y="193">徒流 · 复审</text></g><g class="n "><rect x="586" y="150" width="120" height="56" rx="4"/><text class="t" x="646" y="175">刑部</text><text class="s" x="646" y="193">死罪 · 审拟</text></g><g class="n "><rect x="730" y="150" width="120" height="56" rx="4"/><text class="t" x="790" y="175">大理寺</text><text class="s" x="790" y="193">驳正 · 复核</text></g><g class="n emp"><rect x="874" y="150" width="120" height="56" rx="4"/><text class="t" x="934" y="175">皇帝</text><text class="s" x="934" y="193">覆奏 · 勾决</text></g><g class="eg"><path class="e " d="M132,178 L150,178" marker-end="url(#f6-a)"/></g><g class="eg"><path class="e " d="M276,178 L294,178" marker-end="url(#f6-a)"/></g><g class="eg"><path class="e " d="M420,178 L438,178" marker-end="url(#f6-a)"/></g><g class="eg"><path class="e " d="M564,178 L582,178" marker-end="url(#f6-a)"/></g><g class="eg"><path class="e " d="M708,178 L726,178" marker-end="url(#f6-a)"/></g><g class="eg"><path class="e " d="M852,178 L870,178" marker-end="url(#f6-a)"/></g><g class="n check"><rect x="586" y="56" width="264" height="48" rx="4"/><text class="t" x="718" y="77">都察院</text><text class="s" x="718" y="95">纠察 · 与刑部、大理寺合称三法司</text></g><g class="eg"><path class="e q d" d="M646,104 L646,146" marker-end="url(#f6-q)"/></g><g class="eg"><path class="e q d" d="M790,104 L790,146" marker-end="url(#f6-q)"/></g><g class="n check temp"><rect x="298" y="56" width="264" height="48" rx="4"/><text class="t" x="430" y="77">巡按御史</text><text class="s" x="430" y="95">出巡录囚 · 审录冤滞</text></g><g class="eg"><path class="e q d" d="M358,104 L358,146" marker-end="url(#f6-q)"/></g><g class="eg"><path class="e q d" d="M502,104 L502,146" marker-end="url(#f6-q)"/></g><text class="el z" x="10" y="250">侧门：洪武二十六年曾诏“内外狱毋得上锦衣卫”，永乐起复用</text><g class="n nei"><rect x="586" y="272" width="264" height="56" rx="4"/><text class="t" x="718" y="297">东厂 · 锦衣卫</text><text class="s" x="718" y="315">缉访 · 奉旨拿人</text></g><g class="n nei"><rect x="298" y="272" width="264" height="56" rx="4"/><text class="t" x="430" y="297">北镇抚司诏狱</text><text class="s" x="430" y="315">刑讯 · 定案</text></g><g class="n nei"><rect x="10" y="272" width="264" height="56" rx="4"/><text class="t" x="142" y="297">结案 · 廷杖</text><text class="s" x="142" y="315">不经三法司</text></g><g class="eg"><path class="e z" d="M934,206 L934,300 L854,300" marker-end="url(#f6-z)"/><text class="el z" x="942" y="258" text-anchor="start">密旨</text></g><g class="eg"><path class="e z" d="M586,300 L566,300" marker-end="url(#f6-z)"/></g><g class="eg"><path class="e z" d="M298,300 L278,300" marker-end="url(#f6-z)"/></g></svg></div>
+    <figcaption>上排是常规审级，下排是法外通道。洪武二十六年曾下诏<q>内外狱毋得上锦衣卫，大小咸经法司</q>，但《明史》也说锦衣卫狱<q>其复用亦自永乐时</q>。东厂设于永乐十八年（1420），职责是<q>缉访谋逆妖言大奸恶等</q>；成化十三年（1477）又设西厂，由汪直提督。</figcaption>
+  </figure>
+  <div class="cards">
+    <div class="card"><h4>朝审</h4><p class="yr">天顺三年（1459）定制</p><p>每年霜降以后，三法司会同公、侯、伯等官员复审在押重囚。清代的秋审由此发展而来。</p></div>
+    <div class="card"><h4>热审</h4><p class="yr">每年小满前</p><p>暑热来临前清理在押囚犯，轻罪多减等发落，所以叫“热审”。</p></div>
+    <div class="card"><h4>大审</h4><p class="yr">成化十七年（1481）起</p><p>太监怀恩会同法司录囚，此后逢丙、辛之年举行，约五年一次。太监坐进审录现场，是内廷介入司法的标志。</p></div>
+  </div>
+</section>
+
+<section id="tax">
+  <p class="kicker">赋役 · 黄册与白银</p>
+  <h2>赋役：从点人头到收白银</h2>
+  <div class="prose">
+    <p>明初的财政建在两本册子上：黄册登记户口和丁粮，鱼鳞图册登记每块田的形状和业主。里甲按册子轮流应役，替官府催征钱粮、承担劳役，国家直接点名使用民力。</p>
+    <p>到明中期，册子和实际越差越远，役的负担也越来越不均。嘉靖年间各地开始把名目繁多的赋和役合并，折成白银，按田亩征收，这就是一条鞭法。张居正主持全国清丈田亩后，1581 年把它推行到全国。</p>
+  </div>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f7" viewBox="0 0 1000 244" role="img" aria-label="一条鞭法：田赋实物、里甲正役、均徭杂役、上供物料四类负担，合并折成白银，按田亩征收，官府出钱雇役。"><defs><marker id="f7-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f7-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f7-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><g class="n "><rect x="30" y="16" width="300" height="44" rx="4"/><text class="t" x="180" y="35">田赋 · 夏税秋粮</text><text class="s" x="180" y="53">按亩交米麦等实物</text></g><g class="eg"><path class="e " d="M332,38 C430,38 430,130 520,130"/></g><g class="n "><rect x="30" y="72" width="300" height="44" rx="4"/><text class="t" x="180" y="91">里甲正役</text><text class="s" x="180" y="109">按户轮充，十年一轮</text></g><g class="eg"><path class="e " d="M332,94 C430,94 430,130 520,130"/></g><g class="n "><rect x="30" y="128" width="300" height="44" rx="4"/><text class="t" x="180" y="147">均徭 · 杂泛差役</text><text class="s" x="180" y="165">按丁、按户派劳役</text></g><g class="eg"><path class="e " d="M332,150 C430,150 430,130 520,130"/></g><g class="n "><rect x="30" y="184" width="300" height="44" rx="4"/><text class="t" x="180" y="203">上供物料</text><text class="s" x="180" y="221">按地方摊派实物</text></g><g class="eg"><path class="e " d="M332,206 C430,206 430,130 520,130"/></g><g class="eg"><path class="e " d="M520,130 L636,130" marker-end="url(#f7-a)"/><text class="el " x="578" y="121" text-anchor="middle">合并折银</text></g><g class="n silver"><rect x="640" y="72" width="330" height="116" rx="4"/><text class="t big" x="805" y="118">一条银</text><text class="s" x="805" y="142">按田亩征银 · 官府出钱雇役</text><text class="s" x="805" y="162">嘉靖年间各地试行 · 1581 年通行全国</text></g></svg></div>
+    <figcaption>国家从征用人力转向征收白银，农民对官府的人身依附松了一层，财政也开始依赖白银的供给。清代摊丁入亩把剩下的丁银也摊进地亩，走完了这一步。</figcaption>
+  </figure>
+</section>
+
+<section id="timeline">
+  <p class="kicker">时间线 · 1368–1644</p>
+  <h2>骨架是洪武年间搭好的</h2>
+  <figure class="fig">
+    <p class="hint">图较宽，可左右滑动。</p>
+    <div class="scroll"><svg class="svg" id="f8" viewBox="0 0 1040 236" role="img" aria-label="明代制度时间线 1368–1644：主要制度集中在洪武朝 1376–1397 年设立，此后为内阁 1402、东厂 1420、内书堂 1426、西厂 1477、问刑条例 1500、考成法 1573、一条鞭法 1581，万历十五年为 1587 年。"><defs><marker id="f8-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f8-z" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkz" d="M0,0 L10,5 L0,10 z"/></marker><marker id="f8-q" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="mkq" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="band a" x="40" y="112" width="107.8" height="24"/><text class="bandl" x="93.9" y="128">洪武</text><rect class="band b" x="147.8" y="112" width="13.9" height="24"/><rect class="band a" x="161.7" y="112" width="76.5" height="24"/><text class="bandl" x="200" y="128">永乐</text><rect class="band b" x="238.3" y="112" width="3.5" height="24"/><rect class="band a" x="241.7" y="112" width="34.8" height="24"/><text class="bandl" x="259.1" y="128">宣德</text><rect class="band b" x="276.5" y="112" width="48.7" height="24"/><text class="bandl" x="300.9" y="128">正统</text><rect class="band a" x="325.2" y="112" width="24.3" height="24"/><text class="bandl" x="337.4" y="128">景泰</text><rect class="band b" x="349.6" y="112" width="27.8" height="24"/><rect class="band a" x="377.4" y="112" width="80" height="24"/><text class="bandl" x="417.4" y="128">成化</text><rect class="band b" x="457.4" y="112" width="62.6" height="24"/><text class="bandl" x="488.7" y="128">弘治</text><rect class="band a" x="520" y="112" width="55.7" height="24"/><text class="bandl" x="547.8" y="128">正德</text><rect class="band b" x="575.7" y="112" width="156.5" height="24"/><text class="bandl" x="653.9" y="128">嘉靖</text><rect class="band a" x="732.2" y="112" width="20.9" height="24"/><rect class="band b" x="753" y="112" width="163.5" height="24"/><text class="bandl" x="834.8" y="128">万历</text><rect class="band a" x="916.5" y="112" width="27.8" height="24"/><rect class="band b" x="944.3" y="112" width="55.7" height="24"/><text class="bandl" x="972.2" y="128">崇祯</text><line class="tick" x1="40" y1="112" x2="40" y2="119"/><line class="stem" x1="40" y1="112" x2="40" y2="30"/><text class="evl" x="43" y="26" text-anchor="start">1368 建国</text><line class="tick" x1="67.8" y1="112" x2="67.8" y2="119"/><line class="tick" x1="81.7" y1="112" x2="81.7" y2="119"/><line class="tick" x1="85.2" y1="112" x2="85.2" y2="119"/><line class="tick" x1="88.7" y1="112" x2="88.7" y2="119"/><line class="stem" x1="67.8" y1="112" x2="67.8" y2="52"/><text class="evl" x="70.8" y="48" text-anchor="start">1376–82 布政司 · 废相 · 里甲 · 锦衣卫</text><line class="tick" x1="140.9" y1="112" x2="140.9" y2="119"/><line class="stem" x1="140.9" y1="112" x2="140.9" y2="74"/><text class="evl" x="143.9" y="70" text-anchor="start">1397 大明律</text><line class="tick" x1="158.3" y1="112" x2="158.3" y2="119"/><line class="stem" x1="158.3" y1="112" x2="158.3" y2="96"/><text class="evl" x="161.3" y="92" text-anchor="start">1402 内阁</text><line class="tick" x1="220.9" y1="129" x2="220.9" y2="136"/><line class="stem" x1="220.9" y1="136" x2="220.9" y2="170"/><text class="evl" x="223.9" y="182" text-anchor="start">1420 东厂</text><line class="tick" x1="241.7" y1="129" x2="241.7" y2="136"/><line class="stem" x1="241.7" y1="136" x2="241.7" y2="148"/><text class="evl" x="244.7" y="160" text-anchor="start">1426 内书堂</text><line class="tick" x1="321.7" y1="112" x2="321.7" y2="119"/><line class="stem" x1="321.7" y1="112" x2="321.7" y2="96"/><text class="evl" x="324.7" y="92" text-anchor="start">1449 土木之变</text><line class="tick" x1="356.5" y1="129" x2="356.5" y2="136"/><line class="stem" x1="356.5" y1="136" x2="356.5" y2="148"/><text class="evl" x="359.5" y="160" text-anchor="start">1459 朝审</text><line class="tick" x1="419.1" y1="112" x2="419.1" y2="119"/><line class="stem" x1="419.1" y1="112" x2="419.1" y2="96"/><text class="evl" x="422.1" y="92" text-anchor="start">1477 西厂</text><line class="tick" x1="499.1" y1="112" x2="499.1" y2="119"/><line class="stem" x1="499.1" y1="112" x2="499.1" y2="96"/><text class="evl" x="502.1" y="92" text-anchor="start">1500 问刑条例</text><line class="tick" x1="753" y1="112" x2="753" y2="119"/><line class="stem" x1="753" y1="112" x2="753" y2="74"/><text class="evl" x="756" y="70" text-anchor="start">1573 考成法</text><line class="tick" x1="780.9" y1="129" x2="780.9" y2="136"/><line class="stem" x1="780.9" y1="136" x2="780.9" y2="148"/><text class="evl" x="783.9" y="160" text-anchor="start">1581 一条鞭法</text><line class="tick z" x1="801.7" y1="112" x2="801.7" y2="119"/><line class="stem z" x1="801.7" y1="112" x2="801.7" y2="96"/><text class="evl z" x="804.7" y="92" text-anchor="start">1587 万历十五年</text><line class="tick" x1="1000" y1="112" x2="1000" y2="119"/><line class="stem" x1="1000" y1="112" x2="1000" y2="96"/><text class="evl" x="997" y="92" text-anchor="end">1644 明亡</text><text class="axis" x="151.3" y="222">1400</text><line class="axt" x1="151.3" y1="136" x2="151.3" y2="140"/><text class="axis" x="325.2" y="222">1450</text><line class="axt" x1="325.2" y1="136" x2="325.2" y2="140"/><text class="axis" x="499.1" y="222">1500</text><line class="axt" x1="499.1" y1="136" x2="499.1" y2="140"/><text class="axis" x="673" y="222">1550</text><line class="axt" x1="673" y1="136" x2="673" y2="140"/><text class="axis" x="847" y="222">1600</text><line class="axt" x1="847" y1="136" x2="847" y2="140"/></svg></div>
+    <figcaption>色带是年号，竖线是事件。明朝的主要制度几乎都在洪武朝（1368–1398）定下，此后两百多年，大多是在原有骨架上打补丁：用内阁补宰相，用司礼监补皇帝的精力，用巡抚补三司之间的协调，用《问刑条例》补朱元璋规定不许改动的律文。1426 年设内书堂教小宦官读书，是司礼监后来能接手批红的前提。</figcaption>
+  </figure>
+</section>
+
+<section id="qing">
+  <p class="kicker">明清之间 · 以及之后</p>
+  <h2>清朝改了哪几处</h2>
+  <div class="prose">
+    <p>清朝基本继承了明朝的框架，六部、都察院、律典的结构都保留下来，改动集中在明朝出问题最多的几处。</p>
+  </div>
+  <div class="tbl">
+    <table class="mq">
+      <thead><tr><th scope="col">环节</th><th scope="col">明</th><th scope="col">清</th></tr></thead>
+      <tbody>
+        <tr><td>决策中枢</td><td>内阁票拟，司礼监批红</td><td>军机处承旨拟谕（1729 年起），内阁只处理例行题本</td></tr>
+        <tr><td>文书通道</td><td>题本经通政司、内阁、司礼监层层转手</td><td>奏折由官员直接封进，皇帝亲笔朱批后发回，不经内阁</td></tr>
+        <tr><td>封驳</td><td>六科独立，可封还旨意</td><td>1723 年六科并入都察院，封驳名存实亡</td></tr>
+        <tr><td>内廷</td><td>二十四衙门，司礼监批红并提督东厂</td><td>宫廷事务归内务府，顺治年间立铁牌禁止宦官干政</td></tr>
+        <tr><td>特务</td><td>锦衣卫、东厂、西厂与诏狱</td><td>不设厂卫，密折制度本身承担了情报功能</td></tr>
+        <tr><td>地方</td><td>督抚是中央派出的差遣官</td><td>督抚成为常设长官，布政使、按察使成为其属官</td></tr>
+        <tr><td>法典</td><td>《大明律》加《问刑条例》</td><td>《大清律例》沿用明律框架，律文少改，条例不断增修</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p style="margin-top:20px">清末到民国，这套框架被整体拆除。1905 年废科举；1906 年官制改革后，六部陆续改组为民政、度支、法、陆军、农工商、邮传等部；1911 年裁撤军机处、设责任内阁；1912 年《临时约法》确立议会、内阁、法院分立。法律上，沈家本主持修律，1905 年奏准删除凌迟、枭首、戮尸，1911 年初颁布《大清新刑律》，民刑开始分离，到国民政府时期形成《六法全书》。</p>
+  </div>
+</section>
+
+<section id="sources">
+  <p class="kicker">资料</p>
+  <h2>引文与数字出处</h2>
+  <ul class="sources">
+    <li>《明史》卷四十《地理一》序：两京十三布政使司，府州县、编里、都司卫所数目。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B740" target="_blank" rel="noopener">维基文库</a></li>
+    <li>《明史》卷七十二《职官一》：罢丞相、析中书省之政归六部；内阁大学士正五品，票拟批答；户部十三清吏司。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B772" target="_blank" rel="noopener">维基文库</a></li>
+    <li>《明史》卷七十三《职官二》：都察院、十三道御史 110 人、巡按、通政使司、大理寺、巡抚起源。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B773" target="_blank" rel="noopener">维基文库</a></li>
+    <li>《明史》卷七十四《职官三》：六科给事中正七品、封还执奏；宦官十二监四司八局，司礼监“照阁票批硃”。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B774" target="_blank" rel="noopener">维基文库</a></li>
+    <li>《明史》卷七十六《职官五》：五军都督府、左右都督正一品、锦衣等亲军不隶五府、总兵官无品级。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B776" target="_blank" rel="noopener">维基文库</a></li>
+    <li>《明史》卷九十《兵二》：卫、千户所、百户所编制。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B790" target="_blank" rel="noopener">维基文库</a></li>
+    <li>《明史》卷九十三至九十五《刑法志》：大明律 30 卷 460 条、问刑条例、三法司分工、热审与大审、厂卫与诏狱。<a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B793" target="_blank" rel="noopener">卷九十三</a> · <a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B794" target="_blank" rel="noopener">卷九十四</a> · <a href="https://zh.wikisource.org/wiki/%E6%98%8E%E5%8F%B2/%E5%8D%B795" target="_blank" rel="noopener">卷九十五</a></li>
+    <li>朝审始于天顺三年、大审始于成化十七年的梳理：<a href="https://xbsk.xcc.edu.cn/xcxyxbsk/article/pdf/201603015" target="_blank" rel="noopener">许昌学院学报论文</a></li>
+    <li>内书堂设立与小宦官学习批答：<a href="https://news.bjd.com.cn/2023/08/31/10548151.shtml" target="_blank" rel="noopener">北京日报·京报网</a></li>
+    <li>一条鞭法：<a href="https://en.wikipedia.org/wiki/Single_whip_law" target="_blank" rel="noopener">Wikipedia, Single whip law</a>；梁方仲《明代一条鞭法》。全国推行的年份，中文教材多记为 1581 年，英文资料也有记为 1580 年的。</li>
+    <li>人物经历：黄仁宇《万历十五年》。唐、宋、元、清与近代部分为通行史实概述。</li>
+  </ul>
+</section>
+</main>
+
+<footer>标题用的宋体字形在明代刻书中成熟定型，日本至今把这种字体叫作“明朝体”。</footer>
+</div>
+
+<script>
+(function () {
+  function light(svg, nodes, edges) {
+    if (!svg) return;
+    svg.querySelectorAll('.n.hl, .eg.hl').forEach(function (el) { el.classList.remove('hl'); });
+    if (!nodes) { svg.classList.remove('dim'); return; }
+    svg.classList.add('dim');
+    nodes.forEach(function (id) {
+      svg.querySelectorAll('.n[data-id~="' + id + '"]').forEach(function (el) { el.classList.add('hl'); });
+    });
+    (edges || []).forEach(function (id) {
+      svg.querySelectorAll('.eg[data-e="' + id + '"]').forEach(function (el) { el.classList.add('hl'); });
+    });
+  }
+
+  /* 《万历十五年》人物 */
+  var people = {
+    wanli: { n: ['emp', 'sl', 'ng'], e: ['ng-emp', 'emp-sl'],
+      t: '<b>万历皇帝</b>坐在最顶端，能做的却只有三件事：照内阁的票批红、发还改票、留中不发。立太子之争里他拗不过文官，此后长期不上朝、不批答、官缺不补，用让机器停转的办法对抗。' },
+    zhang: { n: ['ng', 'sl', 'emp', 'lk', 'bu'], e: ['ng-emp', 'emp-sl', 'emp-lk', 'lk-bu'],
+      t: '<b>张居正</b>当首辅时，内阁的票拟和司礼监掌印太监冯保的批红握在一起，政令才推得动。他的考成法让六科稽核六部、内阁稽核六科，把监察链改成了催办链，阁权也越出了票拟的边界。他死后两年被抄家。' },
+    shen: { n: ['ng', 'emp', 'lk', 'dcy'], e: ['ng-emp'],
+      t: '<b>申时行</b>当首辅时，夹在不肯让步的皇帝和连章上疏的六科、御史之间。他一面替皇帝拟措辞温和的票，一面劝言官收手，两头调停，最后在立储之争中辞职。' },
+    hai: { n: ['dcy'], e: ['dcy-bu'],
+      t: '<b>海瑞</b>是都察院“纠劾百司”这条线被当真执行的样子。1569 年他以右佥都御史巡抚应天十府，强令豪绅退田；晚年任南京右都御史，1587 年死在任上。' },
+    qi: { n: ['bu-bing', 'wf', 'ng'], e: ['bing-wf'],
+      t: '<b>戚继光</b>在“战时命将”那条线上：兵要从卫所调或自己招募，调令出自兵部，升降要看内阁。张居正一死，他被调往广东，1585 年罢官回乡，1588 年初病逝。图中没有总兵官，见下文军事一节。' },
+    li: { n: ['lk'], e: [],
+      t: '<b>李贽</b>做过云南姚安知府（1577–1580），之后弃官讲学，在这张图上找不到他的位置。1602 年礼科给事中张问达上疏劾他，他被逮捕下狱，在狱中自刎。' }
+  };
+  var defaultP = document.getElementById('p-note').innerHTML;
+  var court = document.getElementById('f2');
+  var pBtns = document.querySelectorAll('[data-p]');
+  pBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var on = btn.getAttribute('aria-pressed') !== 'true';
+      pBtns.forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+      var p = people[btn.dataset.p];
+      if (on) {
+        btn.setAttribute('aria-pressed', 'true');
+        light(court, p.n, p.e);
+        document.getElementById('p-note').innerHTML = p.t;
+      } else {
+        light(court, null);
+        document.getElementById('p-note').innerHTML = defaultP;
+      }
+    });
+  });
+
+  /* 奏章流转 */
+  var steps = [
+    { n: null, e: null,
+      t: '主线六步，三处可能卡住：皇帝不满意，可以把奏章<b>发还内阁改票</b>，也可以<b>留中</b>不发；六科认为旨意不妥，可以<b>封还执奏</b>。点线是张居正考成法加上的回路。' },
+    { n: ['s1'], e: [],
+      t: '<b>上疏。</b>京官和督抚写题本（公事，加盖官印）或奏本（私事）。在京衙门的本章多在会极门直接投进，地方的题奏经通政司投递。' },
+    { n: ['s1', 's2'], e: ['e12'],
+      t: '<b>通政司</b>（通政使正三品）<q>掌受内外章疏敷奏封驳之事</q>：登记、检查格式，封进御前。它是外廷章奏进宫的总入口。' },
+    { n: ['s2', 's3'], e: ['e23'],
+      t: '<b>票拟。</b>章奏经御览后发内阁，大学士以皇帝的口吻草拟处理意见，用墨笔写在小票上，贴在疏面。票拟在法律上只是建议。' },
+    { n: ['s3', 's4', 'lz'], e: ['e34', 'back34', 'e4lz'],
+      t: '<b>批红。</b>皇帝或代笔的司礼监秉笔太监用朱笔照票誊写批语。不满意可以发还内阁改票，也可以留中，不批也不发。宣德元年（1426）设内书堂教小宦官读书以后，批红越来越多地落到司礼监手里。' },
+    { n: ['s4', 's5'], e: ['e45', 'back54'],
+      t: '<b>六科。</b>批红后的章奏发到六科抄出，下达对口的部。给事中认为不妥，可以<q>封还执奏</q>，正七品的言官能把旨意顶回去。' },
+    { n: ['s5', 's6'], e: ['e56'],
+      t: '<b>执行。</b>各部照旨执行。六部尚书正二品，直接对皇帝负责，中间不再有宰相。' },
+    { n: ['s3', 's5', 's6'], e: ['k65', 'k53'],
+      t: '<b>考成法</b>（1573–1582）：各衙门把每件事登记成三本账，一本留本衙门，一本送六科，一本送内阁，按月注销。六科查六部，内阁查六科，监察链被改造成催办链。阁权因此越出了票拟的边界，这也成了张居正身后被清算的理由之一。' }
+  ];
+  var mem = document.getElementById('f3');
+  var sNote = document.getElementById('s-note');
+  var sBtns = document.querySelectorAll('[data-s]');
+  function showStep(i) {
+    sBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(Number(b.dataset.s) === i)); });
+    light(mem, steps[i].n, steps[i].e);
+    sNote.innerHTML = steps[i].t;
+  }
+  sBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () { showStep(Number(btn.dataset.s)); });
+  });
+  showStep(0);
+})();
+</script>
